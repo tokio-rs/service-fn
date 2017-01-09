@@ -27,7 +27,7 @@ impl<F, R, S> Service for ServiceFn<F, R>
 
 /// Returns a `Service` backed by the given closure.
 pub fn service_fn<F, R, S>(f: F) -> ServiceFn<F, R>
-    where F: FnMut(R) -> S,
+    where F: Fn(R) -> S,
           S: IntoFuture,
 {
     ServiceFn {
