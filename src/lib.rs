@@ -12,7 +12,7 @@ pub struct ServiceFn<F, R> {
 }
 
 impl<F, R, S> Service for ServiceFn<F, R>
-    where F: FnMut(R) -> S,
+    where F: Fn(R) -> S,
           S: IntoFuture,
 {
     type Request = R;
@@ -20,7 +20,7 @@ impl<F, R, S> Service for ServiceFn<F, R>
     type Error = S::Error;
     type Future = S::Future;
 
-    fn call(&mut self, req: Self::Request) -> Self::Future {
+    fn call(&self, req: Self::Request) -> Self::Future {
         (self.f)(req).into_future()
     }
 }
